@@ -121,6 +121,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Normal bow velocity based
       objectReference: {fileID: 0}
+    - target: {fileID: 9147361371138993967, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
+      propertyPath: _velocityBasedWeaponType
+      value: 
+      objectReference: {fileID: 11400000, guid: 481d26521b98c164c8a4f1633593fb9d, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
@@ -213,6 +217,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Normal bow height based
       objectReference: {fileID: 0}
+    - target: {fileID: 9147361371138993967, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
+      propertyPath: _heightBasedWeaponType
+      value: 
+      objectReference: {fileID: 11400000, guid: 1628713587b32784588bf402b52a8f18, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
@@ -305,6 +313,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Big bow height based
       objectReference: {fileID: 0}
+    - target: {fileID: 9147361371138993967, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
+      propertyPath: _heightBasedWeaponType
+      value: 
+      objectReference: {fileID: 11400000, guid: c0b024d8ce226734788a1594bb591f0e, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
@@ -397,6 +409,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Small bow velocity based
       objectReference: {fileID: 0}
+    - target: {fileID: 9147361371138993967, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
+      propertyPath: _velocityBasedWeaponType
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a26a024cc04f7d46a4a9a3f26588032, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
@@ -489,6 +505,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Big bow velocity based
       objectReference: {fileID: 0}
+    - target: {fileID: 9147361371138993967, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
+      propertyPath: _velocityBasedWeaponType
+      value: 
+      objectReference: {fileID: 11400000, guid: e4c875268e4041a45a133bbe9f202de7, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
@@ -577,6 +597,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 9147361371138993967, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}
+      propertyPath: _heightBasedWeaponType
+      value: 
+      objectReference: {fileID: 11400000, guid: 353c11a0b5def064b8cb1a077aeec5e6, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2af3bb5b32a84aa4293f2d265b73837c, type: 3}

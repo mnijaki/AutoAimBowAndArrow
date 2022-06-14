@@ -2108,6 +2108,14 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 515822401}
     m_Modifications:
+    - target: {fileID: 1736338429374598176, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1380327576}
+    - target: {fileID: 1832081873706427720, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1380327576}
     - target: {fileID: 2388322679811300016, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2160,6 +2168,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeaponSwitchers
       objectReference: {fileID: 0}
+    - target: {fileID: 4014916913527771673, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1380327576}
+    - target: {fileID: 5741470566257235166, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1380327576}
+    - target: {fileID: 6285866462061574099, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1380327576}
+    - target: {fileID: 6478954778769567030, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1380327576}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 19228d42740e55443a35f48368fe6a1e, type: 3}

@@ -144,4 +144,14 @@ public class PlayerController : MonoBehaviour
     {
         return (_rigidbody.velocity.y > 0.1F);
     }
+
+    public void ChangeWeapon(HeightBasedWeaponType heightBasedWeaponType)
+    {
+        Debug.Log("heightBasedWeaponType picked up");
+    }
+    
+    public void ChangeWeapon(VelocityBasedWeaponType velocityBasedWeaponType)
+    {
+        Debug.Log("velocityBasedWeaponType picked up");
+    }
 }

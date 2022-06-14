@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5095874245833643641}
   - component: {fileID: 5095874245833643643}
-  - component: {fileID: 5095874245833643642}
+  - component: {fileID: 9147361371138993967}
   m_Layer: 0
   m_Name: WeaponSwitcher
   m_TagString: Untagged
@@ -48,7 +48,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5095874245833643642
+--- !u!114 &9147361371138993967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,9 +57,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5095874245833643640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7df24436b5fb85544a3f16ba6562d9c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 29de6ee7919fd2b4bbc6bb7e16519fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _heightBasedWeaponType: {fileID: 0}
+  _velocityBasedWeaponType: {fileID: 0}
+  _pressurePlate: {fileID: 5095874245854680772}
+  _pressurePlateUI: {fileID: 5095874246973433067}
+  _playerController: {fileID: 0}
 --- !u!1 &5095874245854680772
 GameObject:
   m_ObjectHideFlags: 0
