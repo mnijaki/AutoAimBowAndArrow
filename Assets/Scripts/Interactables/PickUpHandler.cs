@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ public class PickUpHandler : MonoBehaviour
     [SerializeField]
     private GameObject _pressurePlateUI;
     
-    [SerializeField]
-    private PlayerController _playerController;
+    public static event Action<HeightBasedWeaponType> HeightBasedWeaponTypePickedUp = delegate {};
+    public static event Action<VelocityBasedWeaponType> VelocityBasedWeaponTypePickedUp = delegate {};
 
     private Collider _collider;
     private readonly WaitForSeconds _waitTime = new WaitForSeconds(2.0F);
@@ -35,11 +36,11 @@ public class PickUpHandler : MonoBehaviour
     {
         if(_heightBasedWeaponType != null)
         {
-            _playerController.ChangeWeapon(_heightBasedWeaponType);
+            HeightBasedWeaponTypePickedUp.Invoke(_heightBasedWeaponType);
         }
         else
         {
-            _playerController.ChangeWeapon(_velocityBasedWeaponType);
+            VelocityBasedWeaponTypePickedUp.Invoke(_velocityBasedWeaponType);
         }
 
         StartCoroutine(TemporaryDisablePickableObject());

@@ -6,8 +6,8 @@ public class InputReader : MonoBehaviour, GameInput.IGameplayActions
 {
     // TODO: change to actions?
     public event UnityAction<Vector3> moveEvent = delegate { };
-    public event UnityAction shootEvent = delegate { };  
     public event UnityAction<Vector2> cameraMoveEvent = delegate { };
+    public event UnityAction shootEvent = delegate { }; 
     public bool Jumped { get; private set; }
 
     private GameInput gameInput;
