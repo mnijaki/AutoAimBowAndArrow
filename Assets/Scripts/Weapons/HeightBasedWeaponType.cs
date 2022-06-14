@@ -5,7 +5,7 @@ public class HeightBasedWeaponType : ScriptableObject
 {
 	[SerializeField]
 	[Range(0.1F, 50.0F)]
-	[Tooltip("Height of the parable for arrow")]
+	[Tooltip("Maximum height of the arrow parable")]
 	private float _height = 10.0F;
 	
 	public float Height => _height;

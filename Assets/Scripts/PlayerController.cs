@@ -26,6 +26,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 _playerVelocity;
     private Transform _cameraTransform;
     private Rigidbody _rigidbody;
+    
+    private WeaponType _currentWeaponType;
+    private HeightBasedWeaponType _heightBasedWeaponType;
+    private VelocityBasedWeaponType _velocityBasedWeaponType;
+
+    [SerializeField]
+    private Transform _tmpTarget;
 
     private void Awake()
     {
@@ -55,23 +62,17 @@ public class PlayerController : MonoBehaviour
     
     private void OnShoot()
     {
-        Debug.Log("tried to shoot");
-        // // TODO: change to raycaster
-        // GameObject bulletGO = Instantiate(_arrowPrefab, _firingPoint.position, Quaternion.identity);
-        // Bullet bullet = bulletGO.GetComponent<Bullet>();
-        //
-        // RaycastHit hit;
-        // if(Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, 
-        //                    out hit, Mathf.Infinity, _arrowInteractionLayers))
-        // {
-        //     bullet.SetTargetPosition(hit.point);
-        //     bullet.SetIsMovingTowardVoid(false);
-        // }
-        // else
-        // {
-        //     bullet.SetTargetPosition(_cameraTransform.position + _cameraTransform.forward * 20);
-        //     bullet.SetIsMovingTowardVoid(true);
-        // }
+        switch(_currentWeaponType)
+        {
+            case WeaponType.None:
+                return;
+            case WeaponType.HeightBased:
+                ShootHeightBasedProjectile();
+                break;
+            default:
+                ShootVelocityBasedProjectile();
+                break;
+        }
     }
 
     private void FixedUpdate()
@@ -147,11 +148,82 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeWeapon(HeightBasedWeaponType heightBasedWeaponType)
     {
-        Debug.Log("heightBasedWeaponType picked up");
+        _currentWeaponType = WeaponType.HeightBased;
+        _heightBasedWeaponType = heightBasedWeaponType;
     }
     
     public void ChangeWeapon(VelocityBasedWeaponType velocityBasedWeaponType)
     {
-        Debug.Log("velocityBasedWeaponType picked up");
+        _currentWeaponType = WeaponType.VelocityBased;
+        _velocityBasedWeaponType = velocityBasedWeaponType;
     }
+
+    private void ShootHeightBasedProjectile()
+    {
+        // SUVAT kinematic Equations:
+        // 1. S = ((U + V)/2) * T
+        // 2. V = U + A*T
+        // 3. S = U*T + ((A*T*T)/2)
+        // 4. S = V*T - ((A*T*T)/2)
+        // 5. V*V = U*U + 2*A*S
+        // SUVAT parameters meaning:
+        // S - displacement in meters (road to travel)
+        // U - initial velocity in meters per second
+        // V - final velocity in meters per second
+        // A - acceleration in meters per seconds^2
+        // T - time in seconds
+        
+        // A - starting point
+        // P - target point
+        // Px - horizontal displacement
+        // Py - vertical displacement
+        // G - gravity acceleration
+        // H - maximum height of parable
+        // Vi - initial velocity to use for launching, computed based of above data
+        
+        // S - we have (its magnitude of the distance between player and target)
+        // U - we are looking for
+        // V - final velocity.
+        //     We can assume that it will be some small number.
+        //     If you miss it would look strange if arrow would stop in the mid air. 
+        //     That is why final velocity should be great than 0 m/s. 
+        // A - we have (its gravity)
+        // T - we don't have
+        
+        // We split whole problem into 3 computations: upward, horizontal and downward motions.
+        // 1. Upward motion:
+        // We have:
+        // S - displacement is equal to maximum height of parable (on to of the arc)
+        // A - acceleration is gravity value
+        // V - final velocity is 0 on top of the arc
+        // We will use fifth SUVAT equation because it is the closest to compute for our data.
+        // V*V = U*U + 2*A*S
+        // 0*0 = U*U + 2*G*H
+        // U*U = -2*G*H
+        // U = sqrt(-2*G*H)
+
+        Vector3 targetPos = _tmpTarget.transform.position;
+        float displacementY = targetPos.y - _firingPoint.position.y;
+        Vector3 displacementXZ = new Vector3(targetPos.x - _firingPoint.position.x, 0.0F, targetPos.z - _firingPoint.position.z);
+
+        float height = _heightBasedWeaponType.Height;
+        float gravity = Physics.gravity.y;
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * height);
+        var delta = Mathf.Sqrt(-2 * height / gravity);
+        Vector3 velocityXZ = displacementXZ / (delta + Mathf.Sqrt(2 * (displacementY - height) / gravity));
+
+        SpawnProjectile(velocityXZ + velocityY);
+    }
+    
+    private void ShootVelocityBasedProjectile()
+    {
+        //SpawnProjectile();
+    }
+
+    private void SpawnProjectile(Vector3 initialVelocity)
+    {
+        GameObject projectile = Instantiate(_arrowPrefab, _firingPoint.position, Quaternion.identity);
+        projectile.GetComponent<Rigidbody>().velocity = initialVelocity;
+    }
+    
 }
