@@ -4,9 +4,9 @@ using UnityEngine;
 public class VelocityBasedWeaponType : ScriptableObject
 {
     [SerializeField]
-    [Range(11.0F, 50.0F)]
+    [Range(10.0F, 500.0F)]
     [Tooltip("Initial velocity to apply for the arrow. Initial velocity must be higher than gravity to make sure arrow will reach target")]
-    private float _initialVelocity = 11.0F;
+    private float _initialVelocity = 10.0F;
 	
     public float InitialVelocity => _initialVelocity;
 }

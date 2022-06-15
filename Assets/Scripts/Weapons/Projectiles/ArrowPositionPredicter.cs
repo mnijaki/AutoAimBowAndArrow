@@ -38,7 +38,7 @@ public class ArrowPositionPredicter : MonoBehaviour
         // https://www.youtube.com/watch?v=IvT8hjy6q4o&list=PLFt_AvWsXl0eMryeweK7gc9T04lJCIg_W&index=3
         
         Vector3 displacement = arrowLaunchData.InitialVelocity * currentStepSimulationTime +
-                               arrowLaunchData.Gravity * currentStepSimulationTime * currentStepSimulationTime / 2;
+                               ((arrowLaunchData.Gravity * currentStepSimulationTime * currentStepSimulationTime) / 2);
         return displacement;
     }
 
