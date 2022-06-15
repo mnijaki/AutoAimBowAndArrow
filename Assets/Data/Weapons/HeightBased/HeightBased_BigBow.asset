@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e58e8ef92b4b3543b2b96112d8d22be, type: 3}
   m_Name: HeightBased_BigBow
   m_EditorClassIdentifier: 
-  _height: 20
+  _height: 10

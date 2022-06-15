@@ -16,6 +16,11 @@ public class ArrowMover : MonoBehaviour
 
     private void FixedUpdate()
     {
+        AlignArrowDirectionToMovementDirection();
+    }
+
+    private void AlignArrowDirectionToMovementDirection()
+    {
         _rigidbody.MoveRotation(Quaternion.LookRotation(_rigidbody.velocity));
     }
 }
