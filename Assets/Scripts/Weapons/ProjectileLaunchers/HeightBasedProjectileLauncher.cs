@@ -45,20 +45,13 @@ public class HeightBasedProjectileLauncher : MonoBehaviour
     private float CalculateArcHeight(HeightBasedWeaponType heightBasedWeaponType, Vector3 firingPointPos, Vector3 targetPos)
     {
         float height = heightBasedWeaponType.Height;
-
-        height = ApplyDifferenceInHeightBetweenFiringPointAndTarget(height, firingPointPos, targetPos);
         
+        // BE CAREFUL: flattening of arc must happen before applying difference in height between firing point and target.
+        // Don't change invocation order of those two methods.
         if(_shouldFlattenArcHeight)
             height = FlattenArcHeightBasedOnTheDistanceToTarget(height, firingPointPos, targetPos);
 
-        return height;
-    }
-
-    private static float ApplyDifferenceInHeightBetweenFiringPointAndTarget(float height, Vector3 firingPointPos, Vector3 targetPos)
-    {
-        float differenceInHeight = targetPos.y - firingPointPos.y;
-        differenceInHeight = Mathf.Clamp(differenceInHeight, 0.0F, float.MaxValue);
-        height = height + differenceInHeight;
+        height = ApplyDifferenceInHeightBetweenFiringPointAndTarget(height, firingPointPos, targetPos);
 
         return height;
     }
@@ -92,6 +85,15 @@ public class HeightBasedProjectileLauncher : MonoBehaviour
         flattenedHeight = Mathf.Clamp(flattenedHeight, 0.1F, float.MaxValue);
         
         return flattenedHeight;
+    }
+    
+    private static float ApplyDifferenceInHeightBetweenFiringPointAndTarget(float height, Vector3 firingPointPos, Vector3 targetPos)
+    {
+        float differenceInHeight = targetPos.y - firingPointPos.y;
+        differenceInHeight = Mathf.Clamp(differenceInHeight, 0.0F, float.MaxValue);
+        height = height + differenceInHeight;
+
+        return height;
     }
 
     private void LaunchProjectile(ArrowLaunchData arrowLaunchData)

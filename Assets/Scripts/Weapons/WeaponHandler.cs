@@ -4,7 +4,8 @@ public class WeaponHandler : MonoBehaviour
 {
     [SerializeField]
     private Transform _firingPoint;
-    
+
+    private TargetChooser _targetChooser;
     private WeaponType _currentWeaponType = WeaponType.None;
     private HeightBasedWeaponType _heightBasedWeaponType;
     private HeightBasedProjectileLauncher _heightBasedProjectileLauncher;
@@ -15,6 +16,8 @@ public class WeaponHandler : MonoBehaviour
     {
         _heightBasedProjectileLauncher = GetComponent<HeightBasedProjectileLauncher>();
         _velocityBasedProjectileLauncher = GetComponent<VelocityBasedProjectileLauncher>();
+
+        _targetChooser = new TargetChooser(Camera.main, _firingPoint);
     }
 
     private void OnEnable()
@@ -51,17 +54,24 @@ public class WeaponHandler : MonoBehaviour
         _velocityBasedWeaponType = velocityBasedWeaponType;
     }
 
-    public void Shoot(Vector3 targetPos)
+    public void Shoot()
     {
+        ITargetable target = _targetChooser.ChooseTarget();
+        if(target == null)
+        {
+            Debug.Log("No target to shoot at");
+            return;
+        }
+        
         switch(_currentWeaponType)
         {
             case WeaponType.None:
                 return;
             case WeaponType.HeightBased:
-                _heightBasedProjectileLauncher.Shoot(_heightBasedWeaponType,_firingPoint.position,targetPos);
+                _heightBasedProjectileLauncher.Shoot(_heightBasedWeaponType,_firingPoint.position,target.GetPosition());
                 break;
             case WeaponType.VelocityBased:
-                _velocityBasedProjectileLauncher.Shoot(_velocityBasedWeaponType,_firingPoint.position,targetPos);
+                _velocityBasedProjectileLauncher.Shoot(_velocityBasedWeaponType,_firingPoint.position,target.GetPosition());
                 break;
             default:
                 Debug.Log("No implementation for weapon type "+_currentWeaponType);

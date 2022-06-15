@@ -22,9 +22,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
     private WeaponHandler _weaponHandler;
 
-    [SerializeField]
-    private Transform _tmpTarget;
-
     private void Awake()
     {
         _cameraTransform = Camera.main.transform;
@@ -120,6 +117,6 @@ public class PlayerController : MonoBehaviour
     
     private void OnShoot()
     {
-        _weaponHandler.Shoot(_tmpTarget.transform.position);
+        _weaponHandler.Shoot();
     }
 }
