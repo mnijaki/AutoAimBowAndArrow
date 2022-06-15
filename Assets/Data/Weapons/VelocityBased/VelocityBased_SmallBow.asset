@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e57736fb518abe45873d9749f6c8565, type: 3}
   m_Name: VelocityBased_SmallBow
   m_EditorClassIdentifier: 
-  _initialVelocity: 11
+  _initialVelocity: 10

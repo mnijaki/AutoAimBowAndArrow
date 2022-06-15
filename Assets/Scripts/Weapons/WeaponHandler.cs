@@ -4,6 +4,8 @@ public class WeaponHandler : MonoBehaviour
 {
     [SerializeField]
     private Transform _firingPoint;
+    [SerializeField]
+    private VelocityBasedWeaponType wt;
 
     private TargetChooser _targetChooser;
     private WeaponType _currentWeaponType = WeaponType.None;
@@ -18,6 +20,8 @@ public class WeaponHandler : MonoBehaviour
         _velocityBasedProjectileLauncher = GetComponent<VelocityBasedProjectileLauncher>();
 
         _targetChooser = new TargetChooser(Camera.main, _firingPoint);
+
+        ChangeWeapon(wt);
     }
 
     private void OnEnable()
