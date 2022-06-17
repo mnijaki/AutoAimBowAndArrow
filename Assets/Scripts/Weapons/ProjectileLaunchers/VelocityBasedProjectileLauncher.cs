@@ -22,7 +22,135 @@ public class VelocityBasedProjectileLauncher : MonoBehaviour
 
 	public void Shoot(VelocityBasedWeaponType velocityBasedWeaponType, Vector3 firingPointPos, Vector3 targetPos)
 	{
-		ShootOnFlatSurfaceUsingDirection(velocityBasedWeaponType, firingPointPos, targetPos);
+		// *************************************************************************************
+		// Equation of oblique throw angle (you can watch all 4 parts if you want to know more):
+		// https://www.youtube.com/watch?v=bqYtNrhdDAY
+		// *************************************************************************************
+		// phaseAngle = tan^-1(x/h)
+		// 2*launchAngle - phaseAngle = cos^-1 [ ((g*x*x / v*v) - h) / sqrt(h*h + x*x)
+		// *************************************************************************************
+		// Description of variables from the equation/formula:
+		// x - distance of the throw (in our case it is distance to the target).
+		// h - difference in vertical positions between target and shooter.
+		// v - initial velocity
+		// g - gravity
+		// launchAngle - angle at which we want to launch arrow so it would reach target
+		// ************************************************************************************* 
+		// Transformations of above equation to work correctly in unity:
+		// 2*launchAngle - phaseAngle = cos^-1 [ ((g*x*x / v*v) - h) / sqrt(h*h + x*x)]          // add phaseAngle 
+		// 2*launchAngle = cos^-1 [ ((g*x*x / v*v) - h) / sqrt(h*h + x*x)] + phaseAngle          // divide by 2
+		// launchAngle = (cos^-1 [ ((g*x*x / v*v) - h) / sqrt(h*h + x*x)] + phaseAngle) / 2      // change cos^-1 to appropriate method
+		// launchAngle = (Mathf.Acos [ (((g*x*x / v*v) - h) / sqrt(h*h + x*x)) * Mathf.Rad2Deg] + phaseAngle) / 2
+		// *************************************************************************************
+		
+		// Compute base data.
+		float initialVelocity = velocityBasedWeaponType.InitialVelocity;
+		float distance = Vector3.Distance(new Vector3(targetPos.x, 0.0F, targetPos.z), 
+		                                  new Vector3(firingPointPos.x, 0.0F, firingPointPos.z));
+		float differenceInHeight = firingPointPos.y - targetPos.y;
+		float angle = 0.0F;
+
+		if(differenceInHeight >= 0)
+		{
+			// Compute phase angle.
+			float phaseAngle = Mathf.Atan(distance / differenceInHeight) * Mathf.Rad2Deg;
+
+			// Compute launch angle.
+			var x1 = Mathf.Abs(_gravity.y) * Mathf.Pow(distance, 2);
+			var x2 = Mathf.Pow(initialVelocity, 2);
+			float acosAngle = ((x1 / x2) - differenceInHeight) / Mathf.Sqrt(Mathf.Pow(differenceInHeight, 2) + Mathf.Pow(distance, 2));
+			if(acosAngle is < -1 or > 1)
+			{
+				Debug.Log("No shooting arc. Target too far. Exiting...");
+				return;
+			}
+			acosAngle = Mathf.Acos(acosAngle) * Mathf.Rad2Deg;
+			angle = (acosAngle + phaseAngle) / 2;
+		}
+		else
+		{
+			// Voy = Vo sinAlpha
+			// Voy = initialVelocity * Mathf.sin(angle)
+			//
+			// Vox = Vo cosAlpha
+			// Vox = initialVelocity * Mathf.cos(angle)
+			// g = Mathf.Abs(gravity.y);
+			//
+			// x = Vox * t
+			// distance = initialVelocity * Mathf.cos(angle) * t
+			// t = (distance / (initialVelocity * Mathf.cos(angle)))
+			// 
+			// Mathf.Abs(differenceInHeight) = (initialVelocity * Mathf.sin(angle)) * t - (g * Mathf.Pow(t,2) / 2)
+			// Mathf.Abs(differenceInHeight) = (initialVelocity * Mathf.sin(angle)) * (distance / (initialVelocity * Mathf.cos(angle)))
+			// - (g * Mathf.Pow(t,2) / 2)
+			// Mathf.Abs(differenceInHeight) = (distance * Mathf.Tan(angle)) - ((g/2) * (distance/initialVelocity)^2 * sec^2(angle))
+			//
+			// tmp = ((g/2) * (distance/initialVelocity)^2;
+			//
+			// Mathf.Abs(differenceInHeight) = (distance * Mathf.Tan(angle)) - tmp * sec^2(angle)
+			// sec^2(angle) = 1 + tan^2(angle)
+			// Mathf.Abs(differenceInHeight) = (distance * Mathf.Tan(angle)) - tmp * (1 + tan^2(angle))
+			// Mathf.Abs(differenceInHeight) + tmp = (distance * Mathf.Tan(angle) - (tmp * tan^2(angle))
+			//
+			// tmp2 = Mathf.Abs(differenceInHeight) + tmp;
+			//
+			// tmp2 = (distance * Mathf.Tan(angle) - (tmp * tan^2(angle))
+			// 0 = - (tmp * tan^2(angle)) + (distance * Mathf.Tan(angle)) - tmp2
+			// 0 = (tmp * tan^2(angle)) - (distance * Mathf.Tan(angle)) + tmp2
+			//
+			// z =  tan(angle)
+			//
+			// 0 = (tmp * z^2) - (distance * z) + tmp2
+			//
+			// a  = tmp
+			// b = distance
+			// c = tmp2
+			//
+			// result_1 = -b + Mathf.Sqrt(Mathf.Pow(b,2) - 4*a*c) / (2*a)
+			// result_2 = -b - Mathf.Sqrt(Mathf.Pow(b,2) - 4*a*c) / (2*a)
+			// angle_1 = Mathf.Tan(result_1);
+			// angle_2 = Mathf.Tan(result_2);
+
+			float g = Mathf.Abs(_gravity.y);
+			float tmp =  (g/2) * MathF.Pow(distance/initialVelocity, 2);
+			float tmp2 = Mathf.Abs(differenceInHeight) + tmp;
+			//
+			float a = tmp;
+			float b = distance;
+			float c = tmp2;
+			float result_1 = (b + Mathf.Sqrt(Mathf.Pow(b, 2) - 4 * a * c)) / (2 * a);
+			float result_2 = (b - Mathf.Sqrt(Mathf.Pow(b, 2) - 4 * a * c)) / (2 * a);
+			float angle_1 = Mathf.Atan(result_1) * Mathf.Rad2Deg;
+			float angle_2 = Mathf.Atan(result_2) * Mathf.Rad2Deg;
+
+			if(float.IsNaN(result_1) && float.IsNaN(result_2))
+			{
+				Debug.Log("No shooting arc. Target too far. Exiting...");
+				return;
+			}
+
+			if(!float.IsNaN(result_1) && !float.IsNaN(result_2))
+			{
+				angle = Mathf.Min(angle_1, angle_2);
+			}
+			else
+			{
+				if(float.IsNaN(result_1))
+					angle = angle_2;
+				else
+					angle = angle_1;
+			}
+		}
+
+		// Rotate velocityVector upwards along right axis.
+		Vector3 velocityVector = Quaternion.AngleAxis(-angle, Vector3.right) * (Vector3.forward * initialVelocity);
+		// Rotate velocityVector towards target direction.
+		Vector3 directionToTarget = (new Vector3(targetPos.x, 0.0F, targetPos.z) - 
+		                              new Vector3(firingPointPos.x, 0.0F, firingPointPos.z)).normalized;
+		velocityVector = Quaternion.LookRotation(directionToTarget) * velocityVector;
+
+		// Launch projectile.
+		LaunchProjectile(firingPointPos, velocityVector);
 	}
 	
 	public void ShootOnFlatSurfaceUsingVectorForward(VelocityBasedWeaponType velocityBasedWeaponType, Vector3 firingPointPos, Vector3 targetPos)
