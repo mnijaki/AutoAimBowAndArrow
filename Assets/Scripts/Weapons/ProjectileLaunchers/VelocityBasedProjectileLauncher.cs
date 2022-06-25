@@ -88,9 +88,12 @@ public class VelocityBasedProjectileLauncher : MonoBehaviour
 		// Rotate velocityVector towards target direction.
 		Vector3 directionToTarget = (targetPos - firingPointPos).normalized;
 		velocityVector = Quaternion.LookRotation(directionToTarget) * velocityVector;
+		
+		// Calculate flight time.
+		float timeToReachTarget = CalculateFlightTimeOfProjectile(distance, initialVelocity, angle);
 
 		// Launch projectile.
-		LaunchProjectile(firingPointPos, velocityVector);
+		LaunchProjectile(firingPointPos, velocityVector, timeToReachTarget);
 	}
 
 	private void ShootOnTargetAtFlatSurfaceUsingDirection(VelocityBasedWeaponType velocityBasedWeaponType, Vector3 firingPointPos, Vector3 targetPos)
@@ -119,9 +122,10 @@ public class VelocityBasedProjectileLauncher : MonoBehaviour
 		// ************************************************************************************************************************************
 		
 		// Compute base data.
+		float initialVelocity = velocityBasedWeaponType.InitialVelocity;
 		float distance = Vector3.Distance(targetPos,firingPointPos);
 		Vector3 directionToTarget = (targetPos - firingPointPos).normalized;
-		Vector3 velocityVector = directionToTarget * velocityBasedWeaponType.InitialVelocity;
+		Vector3 velocityVector = directionToTarget * initialVelocity;
 		
 		// Compute angle of the arc (we assume shooter and target are on the same surface level).
 		var sin2Angle = ((distance * _gravity.y) / Mathf.Pow(velocityVector.magnitude,2));
@@ -139,8 +143,11 @@ public class VelocityBasedProjectileLauncher : MonoBehaviour
 		// Rotate velocityVector upwards, by the angle we computed before (this will determine angle of the arc).
 		velocityVector = Quaternion.AngleAxis(-angle, upAxis) * velocityVector;
 
+		// Calculate flight time.
+		float timeToReachTarget = CalculateFlightTimeOfProjectile(distance, initialVelocity, angle);
+		
 		// Launch projectile.
-		LaunchProjectile(firingPointPos, velocityVector);
+		LaunchProjectile(firingPointPos, velocityVector, timeToReachTarget);
 	}
 
 	private void ShootOnTargetBelow(VelocityBasedWeaponType velocityBasedWeaponType, Vector3 firingPointPos, Vector3 targetPos)
@@ -280,9 +287,12 @@ public class VelocityBasedProjectileLauncher : MonoBehaviour
 		Vector3 directionToTarget = (new Vector3(targetPos.x, 0.0F, targetPos.z) - 
 		                             new Vector3(firingPointPos.x, 0.0F, firingPointPos.z)).normalized;
 		velocityVector = Quaternion.LookRotation(directionToTarget) * velocityVector;
+		
+		// Calculate flight time.
+		float timeToReachTarget = CalculateFlightTimeOfProjectile(distance, initialVelocity, angle);
 
 		// Launch projectile.
-		LaunchProjectile(firingPointPos, velocityVector);
+		LaunchProjectile(firingPointPos, velocityVector, timeToReachTarget);
 	}
 	
 	private void ShootOnTargetAbove(VelocityBasedWeaponType velocityBasedWeaponType, Vector3 firingPointPos, Vector3 targetPos)
@@ -406,15 +416,20 @@ public class VelocityBasedProjectileLauncher : MonoBehaviour
 		                             new Vector3(firingPointPos.x, 0.0F, firingPointPos.z)).normalized;
 		velocityVector = Quaternion.LookRotation(directionToTarget) * velocityVector;
 		
+		// Calculate flight time.
+		float timeToReachTarget = CalculateFlightTimeOfProjectile(distance, initialVelocity, angle);
+		
 		// Launch projectile.
-		LaunchProjectile(firingPointPos, velocityVector);
+		LaunchProjectile(firingPointPos, velocityVector, timeToReachTarget);
+	}
+
+	private static float CalculateFlightTimeOfProjectile(float distance, float initialVelocity, float angle)
+	{
+		return distance / (initialVelocity * Mathf.Cos(angle * Mathf.Deg2Rad));
 	}
 	
-	private void LaunchProjectile(Vector3 firingPointPos, Vector3 velocityVector)
+	private void LaunchProjectile(Vector3 firingPointPos, Vector3 velocityVector, float timeToReachTarget)
 	{
-		// Calculate flight time.
-		float timeToReachTarget = Mathf.Abs(2 * (velocityVector.y / _gravity.y));
-		
 		ArrowLaunchData arrowLaunchData = new(firingPointPos, velocityVector, timeToReachTarget , _gravity);
 		
 		GameObject projectile = Instantiate(_arrowPrefab, arrowLaunchData.LaunchPosition, Quaternion.identity);
