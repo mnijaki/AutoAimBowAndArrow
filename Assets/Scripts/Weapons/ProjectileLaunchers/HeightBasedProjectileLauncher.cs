@@ -25,13 +25,15 @@ public class HeightBasedProjectileLauncher : MonoBehaviour
         // See video made by Sebastian League (you cant watch all 3 videos if you want to know more).
         // https://www.youtube.com/watch?v=IvT8hjy6q4o&list=PLFt_AvWsXl0eMryeweK7gc9T04lJCIg_W&index=3
 
-        
-        // TODO: here should be also taken to account that enemy can be on different height than player !!!
-        
         float displacementY = targetPos.y - firingPointPos.y;
         Vector3 displacementXZ = new(targetPos.x - firingPointPos.x, 0.0F, targetPos.z - firingPointPos.z);
 
         float arcHeight = CalculateArcHeight(heightBasedWeaponType, firingPointPos, targetPos);
+        if(arcHeight <= 0.0F)
+        {
+            Debug.LogWarning("Height of the arc must be greater than 0.0F");
+            return;
+        }
         
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * _gravity.y * arcHeight);
         float timeToReachTarget = Mathf.Sqrt(-2 * arcHeight / _gravity.y) + Mathf.Sqrt(2 * (displacementY - arcHeight) / _gravity.y);
@@ -45,6 +47,7 @@ public class HeightBasedProjectileLauncher : MonoBehaviour
     private float CalculateArcHeight(HeightBasedWeaponType heightBasedWeaponType, Vector3 firingPointPos, Vector3 targetPos)
     {
         float height = heightBasedWeaponType.Height;
+        //float height = Mathf.Clamp(heightBasedWeaponType.Height - Mathf.Abs(displacementY), 0.01F, float.MaxValue);
         
         // BE CAREFUL: flattening of arc must happen before applying difference in height between firing point and target.
         // Don't change invocation order of those two methods.
@@ -90,10 +93,34 @@ public class HeightBasedProjectileLauncher : MonoBehaviour
     private static float ApplyDifferenceInHeightBetweenFiringPointAndTarget(float height, Vector3 firingPointPos, Vector3 targetPos)
     {
         float differenceInHeight = targetPos.y - firingPointPos.y;
-        differenceInHeight = Mathf.Clamp(differenceInHeight, 0.0F, float.MaxValue);
+        differenceInHeight = Mathf.Clamp(differenceInHeight, 0.0F, float.MaxValue); 
         height = height + differenceInHeight;
 
-        return height;
+        // Height must be greater than 0.
+        return Mathf.Clamp(height, 0.01F, float.MaxValue);
+    }
+    
+    private static float ApplyDifferenceInHeightBetweenFiringPointAndTarget2(float height, Vector3 firingPointPos, Vector3 targetPos)
+    {
+        // Alternative way of applying difference in height between shooter and target. 
+        // You can use it to change behaviour of arc, or you can write your own version.
+        
+        float differenceInHeight = targetPos.y - firingPointPos.y;
+        // If target above then. 
+        if(targetPos.y > firingPointPos.y)
+        {
+            // Choose between provided height or difference in height between shooter and target.
+            height = Mathf.Max(height, differenceInHeight);
+        }
+        // If target below.
+        else
+        {
+            // Lower the height by the difference in height between shooter and target.
+            height = height + differenceInHeight;
+        }
+
+        // Height must be greater than 0.
+        return Mathf.Clamp(height, 0.01F, float.MaxValue);
     }
 
     private void LaunchProjectile(ArrowLaunchData arrowLaunchData)
