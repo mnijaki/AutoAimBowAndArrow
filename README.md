@@ -54,7 +54,7 @@ __This project consist of:__
         * Shooter is above target
       * All trajectory code is commented pretty heavily so it would be easier to understand equation transformations.
         <br />
-        There are also links to videos that exmplains all equations used in code.
+        There are also links to videos that explains equations used in code.
 * __Arrow handling:__
   * "ArrowControler" class
     * Responsible only for destroying of the arrow
