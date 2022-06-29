@@ -72,8 +72,6 @@ __This project consist of:__
     * Used to switch weapon types
   * "Elevator" class:
     * Responsible for handling elevators
-* __Arrow handling:__
-      
 
 <br />
 <br />
