@@ -1,4 +1,4 @@
-# Automatic aim on target in camera frustrum + arrow trajectory algorithms
+# Automatic aim on target in camera frustrum + 3D arrow trajectory algorithms
 
 __This project consist of:__
 * __Input handling:__
@@ -79,7 +79,7 @@ __This project consist of:__
 <br />
 
 # __Project preview:__
-![Tool Preview](https://imgur.com/0E1kl7V.gif)
+![Tool Preview](https://imgur.com/a/w9rp2P2)
 
 # __Screenshots:__
 ![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_1.png) 
