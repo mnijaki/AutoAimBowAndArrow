@@ -22,7 +22,7 @@ __This project consist of:__
     Height based and velocity based.
     <br />
     In most cases you can choose one and then remove unnecessary code, thus simplifying code.
-  * There are two weapon types (ScriptableObjects):
+  * Weapon types (ScriptableObjects):
     * Height based
       * You set how projectile movement will look like based on height of the parable (arc height in inflection point).
     * Velocity based
