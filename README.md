@@ -79,7 +79,8 @@ __This project consist of:__
 <br />
 
 # __Project preview:__
-![asd](https://i.imgur.com/1bwkDvD.gif)
+![asd](https://imgur.com/a/kveRAuV.gif)
+![Tool Preview](https://imgur.com/0E1kl7V.gif)
 
 
 # __Screenshots:__
