@@ -63,7 +63,7 @@ __This project consist of:__
   * "ArrowMover" class:
     * Responsible for launching arrow (sets initial velocity on rigidbody)
     * Responsible also for pointing the tip of the arrow to match the trajectory
-  * ArrowPositionPredicter" class:
+  * "ArrowPositionPredicter" class:
     * Responsible for drawing projectile trajectory
 * __Custom character controller:__
   * Physics based character controller + Cinemachine
