@@ -77,12 +77,19 @@ __This project consist of:__
 
 <br />
 <br />
-# Project preview:
+
+# __Project preview:__
 ![Tool Preview](https://imgur.com/0E1kl7V.gif)
 
-# Controls
-Everything is controlled with the draggable tab:
+# __Screenshots:__
+![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_1.png) 
 
-![image](https://user-images.githubusercontent.com/34221560/146625139-392ad070-9f07-4078-99a0-71033e1f6c19.png) Allows you to show/hide most of the controls.
+![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_2.png)
 
-![image](https://user-images.githubusercontent.com/34221560/146625177-303e2651-6504-4a78-9cc0-21c4c41efafd.png) Hides/Shows the model in the scene.
+![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_3.png)
+
+![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_4.png)
+
+![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_5.png)
+
+![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_6.png)
