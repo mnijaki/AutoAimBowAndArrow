@@ -79,7 +79,9 @@ __This project consist of:__
 <br />
 
 # __Project preview:__
-![Tool Preview](https://imgur.com/a/w9rp2P2)
+![Tool Preview](https://imgur.com/0E1kl7V.gif)
+![Tool Preview](https://imgur.com/9vdbBBC.gif)
+https://imgur.com/9vdbBBC
 
 # __Screenshots:__
 ![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_1.png) 
