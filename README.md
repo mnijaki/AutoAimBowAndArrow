@@ -46,7 +46,7 @@ __This project consist of:__
       * This class will compute initial angle that should be used to launch projectile.
         <br />
         Projectile will travel along arc computed based of initial velocity (obtained from "WeaponType").
-      * Depending on the situation, the equation for computing angle of the launch requires diffren equation transformations.
+      * Depending on the situation, the equation for computing angle of the launch requires different equation transformations.
         <br />
         There are three main situations:
         * Shooter and target are on the same level (their 'y' positions are the same)
