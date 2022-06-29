@@ -80,8 +80,8 @@ __This project consist of:__
 
 # __Project preview:__
 ![Tool Preview](https://imgur.com/0E1kl7V.gif)
-![Tool Preview](https://imgur.com/9vdbBBC.gif)
-https://imgur.com/9vdbBBC
+![Tool Preview](http://i.imgur.com/KnlFs5nh.gif)
+
 
 # __Screenshots:__
 ![image](https://github.com/mnijaki/AutoAimBowAndArrow/blob/9a3b9246ec5eb74ee1420b79a87baf8a620bab1a/Screenshots/Screenshot_1.png) 
