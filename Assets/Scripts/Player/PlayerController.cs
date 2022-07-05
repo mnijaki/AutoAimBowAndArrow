@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _playerSpeed = 400.0F;
     [SerializeField]
-    private float _rotationSpeed = 5.0F;
+    private float _rotationSmoothTime = 0.1F;
     [SerializeField]
     private float _jumpForce = 650.0F;
     [SerializeField]
@@ -17,20 +18,28 @@ public class PlayerController : MonoBehaviour
     private float _groundRayCheckDistance;
     private Vector3 _movementInput;
     private Vector3 _movement;
+    private float _tmpRotationVelocity;
     private Vector3 _playerVelocity;
     private Transform _cameraTransform;
     private Rigidbody _rigidbody;
     private WeaponHandler _weaponHandler;
+    private readonly WaitForFixedUpdate _waitForFixedUpdate = new();
 
     private void Awake()
     {
         _cameraTransform = Camera.main.transform;
         _rigidbody = GetComponent<Rigidbody>();
+        _weaponHandler = GetComponent<WeaponHandler>();
         
+        DetermineGroundRayDistance();
+
+        StartCoroutine(LateFixedUpdate());
+    }
+
+    private void DetermineGroundRayDistance()
+    {
         float playerHeight = GetComponent<CapsuleCollider>().height;
         _groundRayCheckDistance = playerHeight / 2 + _IS_GROUNDED_THRESHOLD;
-
-        _weaponHandler = GetComponent<WeaponHandler>();
     }
 
     private void OnEnable()
@@ -53,7 +62,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleMovement();
-        HandleRotation();
         HandleJump();
     }
 
@@ -77,12 +85,24 @@ public class PlayerController : MonoBehaviour
         _movement.y = _rigidbody.velocity.y;
     }
 
+    private IEnumerator LateFixedUpdate()
+    {
+        while(true)
+        {
+            yield return _waitForFixedUpdate;
+            HandleRotation();
+        }
+    }
+    
     private void HandleRotation()
     {
-        // Rotate player in direction where camera is facing.
-        Quaternion targetRotation = Quaternion.Euler(0.0F,_cameraTransform.eulerAngles.y,0.0F);
-        Quaternion slerpTargetRotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
-        _rigidbody.MoveRotation(slerpTargetRotation);
+        // Rotate player in direction where camera is facing (smooth damp it so no jitter occurs).
+        var targetHorizontalAngle = Mathf.SmoothDampAngle(_rigidbody.rotation.eulerAngles.y,
+                                                          _cameraTransform.eulerAngles.y,
+                                                          ref _tmpRotationVelocity,_rotationSmoothTime,
+                                                          float.MaxValue, Time.fixedDeltaTime);
+        Quaternion targetRotation = Quaternion.Euler(0.0F,targetHorizontalAngle,0.0F);
+        _rigidbody.MoveRotation(targetRotation);
     }
 
     private void HandleJump()
