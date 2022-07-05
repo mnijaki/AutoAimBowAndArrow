@@ -121,11 +121,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RecenterTarget: 2
   m_VerticalAxis:
-    Value: 10
+    Value: 10.000008
     m_SpeedMode: 1
     m_MaxSpeed: 0.15
-    m_AccelTime: 0.2
-    m_DecelTime: 0.2
+    m_AccelTime: 0.5
+    m_DecelTime: 0.3
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -145,11 +145,11 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
-    Value: -5
+    Value: -4.999985
     m_SpeedMode: 1
     m_MaxSpeed: 0.6
-    m_AccelTime: 0.2
-    m_DecelTime: 0.2
+    m_AccelTime: 0.5
+    m_DecelTime: 0.3
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 2.1213872, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 1
